@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h1>MeshZen</h1>
+                    <p>Discover, visualize and collaborate on 3D spine meshes from the Zenodo repository.</p>
+                    <form class="form-inline" method="get" action="{% url 'mesh_search' %}">
+                        <div class="form-group">
+                            <label class="sr-only" for="search">Search</label>
+                            <input type="text" class="form-control" id="search" name="search" placeholder="Search meshes...">
+                        </div>
+                        <button type="submit" class="btn btn-primary ml-2">Search</button>
+                    </form>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mesh-preview">
+                        <div class="preview-box">
+                            <div class="preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Key Features</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <div class="feature-box">
+                        <div class="icon"><i class="fas fa-cloud"></i></div>
+                        <h3>Mesh Repository Integration</h3>
+                        <p>Access meshes from the Zenodo repository using your credentials.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="feature-box">
+                        <div class="icon"><i class="fas fa-cube"></i></div>
+                        <h3>Advanced Visualization</h3>
+                        <p>Visualize 3D spine meshes with advanced lighting, shading, and camera control.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="feature-box">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <h3>Collaboration Tools</h3>
+                        <p>Share meshes with colleagues, add comments, and collaborate on 3D mesh analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Get Started with MeshZen Today</h2>
+            <p>MeshZen is completely free and open source. Download the latest release or clone the repository from GitHub to get started.</p>
+            <a href="#" class="btn btn-primary">Download</a>
+            <a href="#" class="btn btn-secondary">GitHub</a>
+        </div>
+    </section>
+{% endblock %}
