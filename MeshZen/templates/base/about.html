@@ -1,57 +1,28 @@
 {% extends 'base/base.html' %}
-{% load static %}
-
 
 {% block content %}
-    <section class="about">
+    <section class="api">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2>About MeshZen</h2>
-                    <p>MeshZen is a free and open-source project for 3D spine mesh visualization, analysis, and collaboration. It is developed by a team of researchers and software developers from around the world.</p>
+                    <h2>API Documentation</h2>
+                    <p>Explore MeshZen's API and integrate it with your applications.</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <h3>Our Team</h3>
+                <div class="col-12 col-md-6">
+                    <h3>Authentication</h3>
+                    <p>MeshZen API requires authentication with Zenodo credentials.</p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <img src="{% static 'img/team-member-1.jpg' %}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">John Doe</h5>
-                            <p class="card-text">Lead Developer</p>
-                            <a href="#" class="btn btn-primary">View Profile</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <img src="{% static 'img/team-member-2.jpg' %}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Jane Smith</h5>
-                            <p class="card-text">Researcher</p>
-                            <a href="#" class="btn btn-primary">View Profile</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <img src="{% static 'img/team-member-3.jpg' %}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Mark Johnson</h5>
-                            <p class="card-text">UI/UX Designer</p>
-                            <a href="#" class="btn btn-primary">View Profile</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <h3>Our Mission</h3>
-                    <p>Our mission is to make 3D spine mesh visualization and analysis accessible to researchers, clinicians, and educators around the world. We believe that open-source software is the key to democratizing scientific research and accelerating scientific discovery.</p>
+                <div class="col-12 col-md-6">
+                    <h3>Endpoints</h3>
+                    <p>The MeshZen API provides access to the following endpoints:</p>
+                    <ul>
+                        <li><strong>/api/meshes/</strong> - Retrieve a list of meshes</li>
+                        <li><strong>/api/meshes/{id}/</strong> - Retrieve a specific mesh by ID</li>
+                        <li><strong>/api/meshes/{id}/comments/</strong> - Retrieve comments for a specific mesh</li>
+                        <li><strong>/api/meshes/{id}/comments/create/</strong> - Add a new comment to a specific mesh</li>
+                    </ul>
                 </div>
             </div>
         </div>
