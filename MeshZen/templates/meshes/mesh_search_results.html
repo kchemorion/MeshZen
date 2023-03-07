@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Spine Mesh Search</h1>
+  <form action="{% url 'meshes:mesh_search' %}" method="GET">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search Spine Meshes" name="q">
+      <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+  </form>
+
+  {% if meshes %}
+  <h2>Search Results</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Deposition ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Creator</th>
+        <th scope="col">Publication Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mesh in meshes %}
+      <tr>
+        <td><a href="{{ mesh.url }}">{{ mesh.deposition_id }}</a></td>
+        <td>{{ mesh.title }}</td>
+        <td>{{ mesh.description }}</td>
+        <td>{{ mesh.creator }}</td>
+        <td>{{ mesh.publication_date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

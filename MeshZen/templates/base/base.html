@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,47 +12,70 @@
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-+xUv/4fO6a+b+lzt3qPpwO4X4O8Am6C0PVDznKzNRplgSaaU8Le5Bg5LoD80KrJ5o5XhFX0Piq2FugzUZ1gUgw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}"><i class="fas fa-brain"></i>MeshZen</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/features/' %}active{% endif %}" href="{% url 'features' %}">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/documentation/' %}active{% endif %}" href="{% url 'documentation' %}">Documentation</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/download/' %}active{% endif %}" href="{% url 'download' %}">Download</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a>
-            </li>
-          </ul>
-          <div class="d-flex">
-            <a href="#" class="btn btn-outline-dark me-2"><i class="fab fa-zenodo"></i> Login with Zenodo</a>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'base:home' %}"><i class="fas fa-brain"></i> MeshZen</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'base:home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/features/' %}active{% endif %}" href="{% url 'base:features' %}">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/documentation/' %}active{% endif %}" href="{% url 'base:documentation' %}">Documentation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/download/' %}active{% endif %}" href="{% url 'base:download' %}">Download</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'base:about' %}">About</a>
+              </li>
+            </ul>
+            <div class="d-flex">
+              <a href="#" class="btn btn-outline-dark me-2"><i class="fab fa-zenodo"></i> Login with Zenodo</a>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      
 
     <div class="container-fluid">
+        <br>
       {% block content %}{% endblock %}
+      <br><br>
     </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <footer class="bg-black text-white py-3 position-fixed bottom-0 w-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>MeshZen &copy; 2023</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>Acknowledging Disc4All EU Project and EU commission</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+      </style>
+      
+    
+
 
     <!-- Optional JavaScript -->
 

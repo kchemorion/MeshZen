@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Documentation</h2>
+    <hr>
+    <h4>Searching for Spine Meshes on Zenodo</h4>
+    <p>
+      To search for publicly available spine meshes on Zenodo using MeshZen, simply enter your search criteria into the search bar on the landing page and click the "Search" button. You can search by keywords, author, or other criteria such as spine pathology, age group, or imaging modality.
+    </p>
+    <p>
+      Once you have submitted your search query, MeshZen will use the Zenodo API to retrieve the metadata for spine mesh depositions on Zenodo that match your criteria. The search results will be displayed in a nicely formatted list, along with a 3D preview of each mesh that you can interactively explore.
+    </p>
+    <h4>Filtering Spine Meshes by Criteria</h4>
+    <p>
+      If you want to narrow down your search results further, you can use the filters provided on the search page to filter spine meshes by specific criteria such as anatomical region, spine pathology, or imaging modality. As you select different filter options, the search results will be dynamically updated to reflect your selections.
+    </p>
+    <h4>Viewing and Modifying Spine Meshes on Zenodo</h4>
+    <p>
+      If you find a spine mesh that you are interested in, you can click on the corresponding item in the search results to view more details about the mesh, including additional metadata such as the name of the research group that generated it, the imaging modality used, and the license under which it is released. If you want to modify the mesh or use it in your own research, you will need to log in to Zenodo using your Zenodo credentials.
+    </p>
+    <p>
+      Once you have logged in, you will be able to access and modify the spine mesh directly on Zenodo, and any changes that you make will be automatically synced back to the Disc4all deposition (or any other deposition you choose to log in from). To download the mesh for use in your own research, simply click the "Download" button on the Zenodo page.
+    </p>
+  </div>
+{% endblock %}

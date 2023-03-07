@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PAGINATION_SIZE = 10  # Replace 10 with the desired number of items per page
 
 # Application definition
 
@@ -37,6 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'collaboration',
+    'documentation',
+    'meshes',
+    'users',
+    'visualizations',
+    'fontawesomefree',
+    
 ]
 
 MIDDLEWARE = [
