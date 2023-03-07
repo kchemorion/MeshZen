@@ -20,13 +20,12 @@ class MeshSearchView(ListView):
     paginate_by = settings.PAGINATION_SIZE
 
     def get_queryset(self):
-        form = MeshSearchForm(self.request.GET)
-        if form.is_valid():
-            search_term = form.cleaned_data.get('search_term')
-            depositions = ZenodoDeposition.objects.filter(title__icontains=search_term)
+        q = self.request.GET.get('q')
+        if q:
+            depositions = ZenodoDeposition.objects.filter(title__icontains=q)
             if not depositions.exists():
                 # perform a Zenodo search and cache the results
-                search_url = f'https://zenodo.org/api/records/?size=100&q={search_term}+AND+spine+AND+type:dataset'
+                search_url = f'https://zenodo.org/api/records/?size=100&q={q}+AND+spine+AND+type:dataset'
                 response = requests.get(search_url)
                 if response.status_code == 200:
                     response_data = json.loads(response.text)
@@ -49,11 +48,12 @@ class MeshSearchView(ListView):
                                     deposition=deposition
                                 )
                     # return the queryset
-                    depositions = ZenodoDeposition.objects.filter(title__icontains=search_term)
+                    depositions = ZenodoDeposition.objects.filter(title__icontains=q)
                     if not depositions.exists():
-                        messages.error(self.request, f"No results found for '{search_term}'")
+                        messages.error(self.request, f"No results found for '{q}'")
             return depositions
         return ZenodoDeposition.objects.none()
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

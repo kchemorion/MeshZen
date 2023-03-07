@@ -9,14 +9,41 @@
                     <p>Discover, visualize and collaborate on 3D spine meshes.</p>
                     <form class="form-inline" method="get" action="{% url 'meshes:mesh_search' %}">
                         <div class="form-group">
-                            
                             <label class="sr-only" for="search">Search</label>
-                            <input type="text" class="form-control" id="search" name="search" placeholder="Search meshes...">
+                            <input type="text" class="form-control" id="search" name="search" placeholder="keywords such as 'vertebra', 'sacrum', 'femoral head', 'pelvis', 'IVD', 'ligament'">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="spinopelvic_param">Spinopelvic Parameters:</label>
+                            <div class="slider-wrapper">
+                                PI
+                                <input type="range" min="-3" max="3" value="0" class="slider" id="pi_slider">
+                                <span class="slider-value">PI: 0</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                PT
+                                <input type="range" min="-3" max="3" value="0" class="slider" id="pt_slider">
+                                <span class="slider-value">PT: 0</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                SS
+                                <input type="range" min="-3" max="3" value="0" class="slider" id="ss_slider">
+                                <span class="slider-value">SS: 0</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                LL
+                                <input type="range" min="-3" max="3" value="0" class="slider" id="ll_slider">
+                                <span class="slider-value">LL: 0</span>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="gap_score">GAP Score:</label>
+                            <input type="checkbox" id="gap_score" name="gap_score" value="1">
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary ml-2">Search</button>
-                    </form>                    
-                      
+                    </form>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mesh-preview">
@@ -28,45 +55,66 @@
             </div>
         </div>
     </section>
-
-    <section class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2>Key Features</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <div class="feature-box">
-                        <div class="icon"><i class="fas fa-cloud"></i></div>
-                        <h3>Mesh Repository Integration</h3>
-                        <p>Access meshes from the Zenodo repository using your credentials.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="feature-box">
-                        <div class="icon"><i class="fas fa-cube"></i></div>
-                        <h3>Advanced Visualization</h3>
-                        <p>Visualize 3D spine meshes with advanced lighting, shading, and camera control.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="feature-box">
-                        <div class="icon"><i class="fas fa-users"></i></div>
-                        <h3>Collaboration Tools</h3>
-                        <p>Share meshes with colleagues, add comments, and collaborate on 3D mesh analysis.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <br>
     <section class="cta">
         <div class="container">
-        
             <a href="#" class="btn btn-primary">Download</a>
             <a href="#" class="btn btn-secondary">GitHub</a>
         </div>
     </section>
+
+    <script>
+        // Get the sliders and slider values
+        const pi_slider = document.getElementById("pi_slider");
+        const pt_slider = document.getElementById("pt_slider");
+        const ss_slider = document.getElementById("ss_slider");
+        const ll_slider = document.getElementById("ll_slider");
+        const pi_value = document.querySelector("#pi_slider + span.slider-value");
+        const pt_value = document.querySelector("#pt_slider + span.slider-value");
+        const ss_value = document.querySelector("#ss_slider + span.slider-value");
+        const ll_value = document.querySelector("#ll_slider + span.slider-value");
+
+          // Update the slider value when the user moves the slider
+  pi_slider.addEventListener("input", function() {
+      pi_value.textContent = this.value;
+  });
+  pt_slider.addEventListener("input", function() {
+      pt_value.textContent = this.value;
+  });
+  ss_slider.addEventListener("input", function() {
+      ss_value.textContent = this.value;
+  });
+  ll_slider.addEventListener("input", function() {
+      ll_value.textContent = this.value;
+  });
+
+  // Get the form and add an event listener to it
+  const form = document.querySelector("#search-form");
+  form.addEventListener("submit", function(event) {
+      // Prevent the form from submitting
+      event.preventDefault();
+
+      // Get the search term and spinopelvic parameters from the form
+      const search_term = document.querySelector("#search").value;
+      const pi = pi_slider.value;
+      const pt = pt_slider.value;
+      const ss = ss_slider.value;
+      const ll = ll_slider.value;
+
+      // Send an AJAX request to the server with the search term and spinopelvic parameters
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", `search/?search=${search_term}&pi=${pi}&pt=${pt}&ss=${ss}&ll=${ll}`, true);
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              // Update the search results with the response from the server
+              const search_results = document.querySelector("#search-results");
+              search_results.innerHTML = xhr.responseText;
+          } else {
+              alert("Error: " + xhr.statusText);
+          }
+      };
+      xhr.send();
+  });
+
+</script>
 {% endblock %}
