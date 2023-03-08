@@ -20,6 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('mesh_search/', include('meshes.urls')),
+    path('login_with_zenodo/', include('users.urls')),
+
 
     
     ]
