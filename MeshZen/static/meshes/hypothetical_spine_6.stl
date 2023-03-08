@@ -1,0 +1,97 @@
+solid hypothetical_spine
+facet normal 0.94998 -0.187 0.40325
+outer loop
+vertex 0.21568 0.52066 0.17274
+vertex -0.96266 -0.03021 -0.07097
+vertex -0.65853 0.25445 0.94043
+endloop
+endfacet
+facet normal 0.79855 0.82456 -0.37399
+outer loop
+vertex 0.78976 0.00643 0.83576
+vertex -0.40194 -0.64761 -0.66336
+vertex -0.00982 -0.09569 0.54644
+endloop
+endfacet
+facet normal -0.71943 -0.63041 0.41053
+outer loop
+vertex 0.02161 0.8852 -0.63679
+vertex 0.13023 0.27444 0.1112
+vertex 0.67565 0.13488 0.87782
+endloop
+endfacet
+facet normal 0.96222 -0.741 0.74788
+outer loop
+vertex 0.95677 0.15505 -0.39586
+vertex 0.73478 -0.56583 -0.99038
+vertex 0.56499 0.71714 0.59196
+endloop
+endfacet
+facet normal 0.46145 0.37799 -0.6316
+outer loop
+vertex -0.60331 -0.62891 0.25286
+vertex 0.61466 -0.41409 -0.00332
+vertex 0.53008 -0.01689 -0.91269
+endloop
+endfacet
+facet normal -0.48665 0.35215 0.37254
+outer loop
+vertex -0.51962 -0.06973 -0.83863
+vertex 0.66252 0.59501 0.98415
+vertex 0.36669 0.50993 0.25945
+endloop
+endfacet
+facet normal 0.09055 0.02315 -0.31018
+outer loop
+vertex -0.11091 0.05656 0.86517
+vertex 0.95491 0.96862 -0.43688
+vertex 0.43102 0.51991 0.12701
+endloop
+endfacet
+facet normal -0.24952 -0.43445 0.19951
+outer loop
+vertex 0.61776 0.58361 0.4894
+vertex 0.19682 0.54672 0.59034
+vertex -0.75308 0.72361 -0.20627
+endloop
+endfacet
+facet normal 0.56569 0.65814 0.47091
+outer loop
+vertex 0.84612 -0.89149 0.87383
+vertex 0.05888 0.5153 -0.52509
+vertex 0.45152 0.57705 -0.31794
+endloop
+endfacet
+facet normal -0.43774 -0.6229 -0.29116
+outer loop
+vertex 0.82628 -0.65545 -0.92829
+vertex 0.24823 -0.25545 -0.63905
+vertex -0.47039 0.51256 0.02736
+endloop
+endfacet
+facet normal 0.09671 -0.63875 -0.94449
+outer loop
+vertex 0.89584 -0.91591 0.15483
+vertex -0.7897 0.29413 0.27649
+vertex 0.76471 -0.34849 -0.48973
+endloop
+endfacet
+facet normal -0.28899 -0.20971 0.43153
+outer loop
+vertex -0.915 0.02205 0.38604
+vertex 0.25021 -0.42679 0.07508
+vertex -0.65027 0.21172 0.59242
+endloop
+endfacet
+property SpinopelvicParameter PI 3.68113
+property SpinopelvicParameter PT 2.04044
+property SpinopelvicParameter SS 1.74193
+property SpinopelvicParameter LL 1.49691
+property SpinopelvicParameter LL-PI 0.70255
+property SpinopelvicParameter GT 0.79067
+property SpinopelvicParameter RPV 1.8828
+property SpinopelvicParameter RLL 1.28507
+property SpinopelvicParameter LDI 0.8312
+property SpinopelvicParameter RSA 0.3899
+property SpinopelvicParameter TPA 0.71126
+endsolid hypothetical_spine

@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Finite Element Analysis</h1>
+    <hr>
+    <h3>Mesh Selection</h3>
+    <div class="form-group">
+      <label for="mesh-select">Select a Mesh:</label>
+      <select class="form-control" id="mesh-select">
+        <option value="">-- Select a Mesh --</option>
+        <option value="mesh1">Mesh 1</option>
+        <option value="mesh2">Mesh 2</option>
+        <option value="mesh3">Mesh 3</option>
+        <!-- Add more options here -->
+      </select>
+    </div>
+    <hr>
+    <h3>Material Properties</h3>
+    <div class="form-group">
+      <label for="youngs-modulus-input">Young's Modulus:</label>
+      <input type="number" class="form-control" id="youngs-modulus-input" placeholder="Enter Young's Modulus">
+    </div>
+    <div class="form-group">
+      <label for="poissons-ratio-input">Poisson's Ratio:</label>
+      <input type="number" class="form-control" id="poissons-ratio-input" placeholder="Enter Poisson's Ratio">
+    </div>
+    <hr>
+    <h3>Boundary Conditions</h3>
+    <div class="form-group">
+      <label for="left-bc-select">Left Boundary Condition:</label>
+      <select class="form-control" id="left-bc-select">
+        <option value="">-- Select a Boundary Condition --</option>
+        <option value="fixed">Fixed</option>
+        <option value="free">Free</option>
+        <option value="force">Force</option>
+        <!-- Add more options here -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="right-bc-select">Right Boundary Condition:</label>
+      <select class="form-control" id="right-bc-select">
+        <option value="">-- Select a Boundary Condition --</option>
+        <option value="fixed">Fixed</option>
+        <option value="free">Free</option>
+        <option value="force">Force</option>
+        <!-- Add more options here -->
+      </select>
+    </div>
+    <hr>
+    <h3>Load Case</h3>
+    <div class="form-group">
+      <label for="load-type-select">Load Type:</label>
+      <select class="form-control" id="load-type-select">
+        <option value="">-- Select a Load Type --</option>
+        <option value="point-load">Point Load</option>
+        <option value="distributed-load">Distributed Load</option>
+        <!-- Add more options here -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="load-value-input">Load Value:</label>
+      <input type="number" class="form-control" id="load-value-input" placeholder="Enter Load Value">
+    </div>
+    <hr>
+    <a href=" {% url 'meshes:report' %} " class="btn btn-dark">Run Analysis</a>    </div>
+</div>
+  <br>
+{% endblock %}

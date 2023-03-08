@@ -1,39 +1,125 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+
 <div class="container">
   <h1>Spine Mesh Search</h1>
-  <form action="{% url 'meshes:mesh_search' %}" method="GET">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search Spine Meshes" name="q">
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
+  <form class="form-inline" method="post" action="{% url 'meshes:results' %}">
+    {% csrf_token %}
+    <br>
+    <div class="form-group">
+        <label for="spinopelvic_param">Spinopelvic Parameters:</label>
+        <div class="slider-wrapper">
+            PI
+            <input type="range" min="-3" max="3" value="0" class="slider" id="pi_slider" name="pi">
+            <span class="slider-value">PI: 0</span>
+        </div>
+        <div class="slider-wrapper">
+            PT
+            <input type="range" min="-3" max="3" value="0" class="slider" id="pt_slider" name="pt">
+            <span class="slider-value">PT: 0</span>
+        </div>
+        <div class="slider-wrapper">
+            SS
+            <input type="range" min="-3" max="3" value="0" class="slider" id="ss_slider" name="ss">
+            <span class="slider-value">SS: 0</span>
+        </div>
+        <div class="slider-wrapper">
+            LL
+            <input type="range" min="-3" max="3" value="0" class="slider" id="ll_slider" name="ll">
+            <span class="slider-value">LL: 0</span>
+        </div>
     </div>
+    <br>
+
+    <br>
+    <button type="submit" class="btn btn-primary ml-2">Search</button>
   </form>
 
-  {% if meshes %}
-  <h2>Search Results</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Deposition ID</th>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Creator</th>
-        <th scope="col">Publication Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for mesh in meshes %}
-      <tr>
-        <td><a href="{{ mesh.url }}">{{ mesh.deposition_id }}</a></td>
-        <td>{{ mesh.title }}</td>
-        <td>{{ mesh.description }}</td>
-        <td>{{ mesh.creator }}</td>
-        <td>{{ mesh.publication_date }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {% if object_list %}
+    <h2>Search Results</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Deposition ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Creator</th>
+          <th scope="col">Publication Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mesh in object_list %}
+          <tr>
+            <td><a href="{{ mesh.url }}">{{ mesh.deposition_id }}</a></td>
+            <td>{{ mesh.title }}</td>
+            <td>{{ mesh.description }}</td>
+            <td>{{ mesh.creator }}</td>
+            <td>{{ mesh.publication_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% endif %}
 </div>
+
+<script>
+  // Get the sliders and slider values
+  const pi_slider = document.getElementById("pi_slider");
+  const pt_slider = document.getElementById("pt_slider");
+  const ss_slider = document.getElementById("ss_slider");
+  const ll_slider = document.getElementById("ll_slider");
+  const pi_value = document.querySelector("#pi_slider + span.slider-value");
+  const pt_value = document.querySelector("#pt_slider + span.slider-value");
+  const ss_value = document.querySelector("#ss_slider + span.slider-value");
+  const ll_value = document.querySelector("#ll_slider + span.slider-value");
+
+  // Update the slider value when the user moves the slider
+ // Update the slider value when the user moves the slider
+pi_slider.addEventListener("input", function() {
+pi_value.textContent = this.value;
+});
+
+pt_slider.addEventListener("input", function() {
+pt_value.textContent = this.value;
+});
+
+ss_slider.addEventListener("input", function() {
+ss_value.textContent = this.value;
+});
+
+ll_slider.addEventListener("input", function() {
+ll_value.textContent = this.value;
+});
+
+// Get the form and add an event listener to it
+const form = document.querySelector("#mesh-search-form");
+form.addEventListener("submit", function(event) {
+// Prevent the form from submitting
+event.preventDefault();
+
+// Get the spinopelvic parameters from the sliders
+const pi = pi_slider.value;
+const pt = pt_slider.value;
+const ss = ss_slider.value;
+const ll = ll_slider.value;
+
+
+// Send a POST request to the server with the spinopelvic parameters and GAP Score
+const xhr = new XMLHttpRequest();
+xhr.open("POST", "{% url 'meshes:mesh_search' %}");
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.onload = function() {
+if (xhr.status === 200) {
+// Update the search results with the response from the server
+const search_results = document.querySelector("#search-results");
+search_results.innerHTML = xhr.responseText;
+} else {
+alert("Error: " + xhr.statusText);
+}
+};
+const data = JSON.stringify({pi: pi, pt: pt, ss: ss, ll: ll});
+xhr.send(data);
+});
+</script>
 {% endblock %}
