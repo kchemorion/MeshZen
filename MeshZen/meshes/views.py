@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from .models import ZenodoDeposition, MeshFile
+from vtk.util import numpy_support
 import os
 import vtk
 
@@ -18,6 +19,38 @@ def results(request):
         ]
     }
     return render(request, 'meshes/results.html', context=data)
+
+def visualize1(request):
+    # Get the path to the mesh file
+    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
+
+    # Read the mesh file
+    reader = vtk.vtkSTLReader()
+    reader.SetFileName(mesh_file)
+    reader.Update()
+
+    # Convert the polydata to a numpy array
+    polydata = reader.GetOutput()
+    points = polydata.GetPoints()
+    vertices = polydata.GetVerts()
+    normals = polydata.GetPointData().GetNormals()
+
+    # Convert vtk arrays to numpy arrays
+    numpy_points = numpy_support.vtk_to_numpy(points.GetData())
+    numpy_vertices = numpy_support.vtk_to_numpy(vertices.GetData())
+    numpy_normals = numpy_support.vtk_to_numpy(normals)
+
+    # Create a dictionary to pass to the template
+    context = {
+        'points': numpy_points.tolist(),
+        'vertices': numpy_vertices.tolist(),
+        'normals': numpy_normals.tolist(),
+    }
+
+    return render(request, 'meshes/visualize.html', context)
+
+
+
 
 def visualize(request):
     # Get the path to the mesh file
@@ -50,7 +83,7 @@ def visualize(request):
     render_window.Render()
     interactor.Start()
 
-    return render(request, 'meshes/results.html')
+    return render(request, 'meshes/oops.html')
 
 def analyze(request):
 
