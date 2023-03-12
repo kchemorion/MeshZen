@@ -1,44 +1,19 @@
 {% extends 'base/base.html' %}
 {% load static %}
-
 {% block content %}
-  <div id="vtk-container" style="width: 30%;"></div>
 
-  <script src="https://unpkg.com/vtk.js" ></script>
-  <script>
-    // Get the path to the mesh file
-    var mesh_file = '{% static "meshes/Vertebra.stl" %}';
+<!doctype html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js" integrity="sha256-tAVw6WRAXc3td2Esrjd28l54s3P2y7CDFu1271mu5LE=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://brentyi.github.io/stl_web_viewer2/build/stlwebviewer2.css" />
+  </head>
+  <body>
+    <div class="stlwv2-model" data-model-url="{{ STATIC_URL }}meshes/Vertebra.stl"></div>
+    <script src="https://brentyi.github.io/stl_web_viewer2/build/stlwebviewer2.js"></script>
+  </body>
+</html>
 
-    // Create a new renderer and render window
-    var renderer = vtk.Rendering.Core.vtkRenderer.newInstance();
-    var renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-    renderWindow.addRenderer(renderer);
 
-    // Set up the render window to be associated with the container element
-    var container = document.getElementById('vtk-container');
-    var openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
-    openglRenderWindow.setContainer(container);
-    renderWindow.addView(openglRenderWindow);
-
-    // Read the mesh file
-    const reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
-    reader.setUrl(mesh_file).then(() => {
-      const polyData = reader.getOutputData();
-
-      // Create a mapper and actor
-      const mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: false });
-      mapper.setInputData(polyData);
-      const actor = vtk.Rendering.Core.vtkActor.newInstance();
-      actor.setMapper(mapper);
-      actor.getProperty().setColor(1, 1, );  // set the color of the actor
-
-      // Add the actor to the renderer
-      renderer.addActor(actor);
-      renderer.setBackground(1, 1, 1);  // set the background color of the scene
-
-      // Reset the camera and render the scene
-      renderer.resetCamera();
-      renderWindow.render();
-    });
-  </script>
 {% endblock %}
