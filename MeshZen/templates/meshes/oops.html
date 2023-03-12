@@ -4,7 +4,7 @@
 {% block content %}
   <div id="vtk-container" style="width: 30%;"></div>
 
-  <script src="https://unpkg.com/vtk.js"></script>
+  <script src="https://unpkg.com/vtk.js" ></script>
   <script>
     // Get the path to the mesh file
     var mesh_file = '{% static "meshes/Vertebra.stl" %}';
@@ -30,11 +30,11 @@
       mapper.setInputData(polyData);
       const actor = vtk.Rendering.Core.vtkActor.newInstance();
       actor.setMapper(mapper);
-      actor.getProperty().setColor(1, 0, 0);  // set the color of the actor
+      actor.getProperty().setColor(1, 1, );  // set the color of the actor
 
       // Add the actor to the renderer
       renderer.addActor(actor);
-      renderer.setBackground(0.2, 0.2, 0.2);  // set the background color of the scene
+      renderer.setBackground(1, 1, 1);  // set the background color of the scene
 
       // Reset the camera and render the scene
       renderer.resetCamera();

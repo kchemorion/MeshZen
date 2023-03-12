@@ -8,6 +8,13 @@ from vtk.util import numpy_support
 import os
 import vtk
 
+import base64
+from io import BytesIO
+
+from django.http import HttpResponse
+
+import trimesh
+
 from django.shortcuts import render
 
 def results(request):
@@ -52,7 +59,7 @@ def visualize1(request):
 
 
 
-def visualize(request):
+def visualizereal(request):
     # Get the path to the mesh file
     mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
 
@@ -121,4 +128,10 @@ class MeshSearchView(ListView):
                 mesh_files = mesh_files.filter(ll=ll)
             return mesh_files
         return MeshFile.objects.none()
+
+def visualize(request):
+    context = {
+        'STATIC_URL': settings.STATIC_URL,
+    }
+    return render(request, 'meshes/oops.html', context=context)
 
