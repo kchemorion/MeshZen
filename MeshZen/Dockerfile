@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --no-cache-dir --index-url=http://localhost:3141/root/pypi/+simple/ --trusted-host=localhost -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy the project files
 COPY . .
