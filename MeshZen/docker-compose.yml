@@ -10,10 +10,16 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=True
-      - SECRET_KEY=django-insecure-un+1-(kllp1)5i#wu^=e33h#+q-w4$d5c7*ijl@^l@75y6$af8
+      - SECRET_KEY=your_secret_key_here
       - DATABASE_URL=postgres://user:password@db:5432/meshzen_db
     depends_on:
       - db
+    environment:
+      - http_proxy
+      - https_proxy
+    networks:
+      - backend
+
   db:
     image: postgres
     environment:
@@ -22,6 +28,25 @@ services:
       - POSTGRES_DB=meshzen_db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - backend
+
+  pypicache:
+    image: pypicache
+    ports:
+      - "3141:3141"
+    volumes:
+      - pypicache:/data/pypi
+    environment:
+      - http_proxy
+      - https_proxy
+    networks:
+      - backend
 
 volumes:
   postgres_data:
+  pypicache:
+
+networks:
+  backend:
+    driver: bridge
