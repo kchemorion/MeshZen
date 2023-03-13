@@ -4,17 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from .models import ZenodoDeposition, MeshFile
-from vtk.util import numpy_support
 import os
-import vtk
-
 import base64
 from io import BytesIO
-
 from django.http import HttpResponse
-
-import trimesh
-
 from django.shortcuts import render
 
 def results(request):
@@ -27,70 +20,6 @@ def results(request):
     }
     return render(request, 'meshes/results.html', context=data)
 
-def visualize1(request):
-    # Get the path to the mesh file
-    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
-
-    # Read the mesh file
-    reader = vtk.vtkSTLReader()
-    reader.SetFileName(mesh_file)
-    reader.Update()
-
-    # Convert the polydata to a numpy array
-    polydata = reader.GetOutput()
-    points = polydata.GetPoints()
-    vertices = polydata.GetVerts()
-    normals = polydata.GetPointData().GetNormals()
-
-    # Convert vtk arrays to numpy arrays
-    numpy_points = numpy_support.vtk_to_numpy(points.GetData())
-    numpy_vertices = numpy_support.vtk_to_numpy(vertices.GetData())
-    numpy_normals = numpy_support.vtk_to_numpy(normals)
-
-    # Create a dictionary to pass to the template
-    context = {
-        'points': numpy_points.tolist(),
-        'vertices': numpy_vertices.tolist(),
-        'normals': numpy_normals.tolist(),
-    }
-
-    return render(request, 'meshes/visualize.html', context)
-
-
-
-
-def visualizereal(request):
-    # Get the path to the mesh file
-    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
-
-    # Read the mesh file
-    reader = vtk.vtkSTLReader()
-    reader.SetFileName(mesh_file)
-    reader.Update()
-
-    # Create a mapper and actor
-    mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInputConnection(reader.GetOutputPort())
-    actor = vtk.vtkActor()
-    actor.SetMapper(mapper)
-    actor.GetProperty().SetColor(1, 0, 0)  # set the color of the actor
-
-    # Create a renderer, render window, and interactor
-    renderer = vtk.vtkRenderer()
-    render_window = vtk.vtkRenderWindow()
-    render_window.AddRenderer(renderer)
-    interactor = vtk.vtkRenderWindowInteractor()
-    interactor.SetRenderWindow(render_window)
-
-    # Add the actor to the scene
-    renderer.AddActor(actor)
-    renderer.SetBackground(0.2, 0.2, 0.2)  # set the background color of the scene
-
-    # Render the scene and start the interactor
-    render_window.Render()
-    interactor.Start()
-
-    return render(request, 'meshes/oops.html')
 
 def analyze(request):
 

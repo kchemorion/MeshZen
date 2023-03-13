@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'meshes',
     'users',
     'visualizations',
-    'corsheaders',
     
 ]
 
