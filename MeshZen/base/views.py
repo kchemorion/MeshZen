@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 import os
-import vtk
 from django.shortcuts import render
 from django.conf import settings
 

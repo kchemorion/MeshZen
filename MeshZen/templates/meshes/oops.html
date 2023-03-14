@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<!doctype html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js" integrity="sha256-tAVw6WRAXc3td2Esrjd28l54s3P2y7CDFu1271mu5LE=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://brentyi.github.io/stl_web_viewer2/build/stlwebviewer2.css" />
+  </head>
+  <body>
+    <div class="stlwv2-model" data-model-url="{{ mesh_url }}" style="width: 50%;"></div>
+    <script src="https://brentyi.github.io/stl_web_viewer2/build/stlwebviewer2.js"></script>
+
+    <form>
+      <fieldset>
+        <legend>Mesh Controls</legend>
+        <label for="decimation_factor">Decimation Factor:</label>
+        <input type="range" id="decimation_factor" name="decimation_factor" min="0" max="1" step="0.01" value="0.5" />
+        <br />
+        <label for="color">Color:</label>
+        <input type="color" id="color" name="color" value="#ffffff" />
+        <br />
+        <label for="opacity">Opacity:</label>
+        <input type="range" id="opacity" name="opacity" min="0" max="1" step="0.01" value="1" />
+        <br />
+        <label for="wireframe">Wireframe:</label>
+        <input type="checkbox" id="wireframe" name="wireframe" />
+        <br />
+        <input type="submit" value="Apply" />
+      </fieldset>
+    </form>
+
+    <script>
+      $(document).ready(function() {
+        var viewer = $('.stlwv2-model').data('stlwebviewer2').viewer;
+
+        $('form').submit(function(event) {
+          event.preventDefault();
+
+          // Get form values
+          var decimationFactor = $('#decimation_factor').val();
+          var color = $('#color').val();
+          var opacity = $('#opacity').val();
+          var wireframe = $('#wireframe').is(':checked');
+
+          // Apply filters to mesh using pymeshlab
+          var ms = new MeshSet();
+          ms.load_new_mesh('{{ mesh_path }}');
+          ms.apply_filter('simplification_quadric_edge_collapse_decimation', targetfacenum=decimationFactor * 10000);
+          var mesh = ms.current_mesh();
+          mesh.compute_normals();
+
+          // Apply color and opacity to mesh
+          var material = new THREE.MeshPhongMaterial({
+            color: new THREE.Color(color),
+            opacity: opacity,
+            transparent: true,
+            wireframe: wireframe,
+          });
+          var geometry = new THREE.BufferGeometry();
+          geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(mesh.vertex_list), 3));
+          geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(mesh.normal_list), 3));
+          geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(mesh.face_list), 1));
+                var meshObj = new THREE.Mesh(geometry, material);
+      viewer.scene.remove(viewer.scene.children[0]);
+      viewer.scene.add(meshObj);
+    });
+  });
+</script>
+{% endblock %}

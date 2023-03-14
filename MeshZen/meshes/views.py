@@ -5,9 +5,11 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 from .models import ZenodoDeposition, MeshFile
 import os
-import vtk
-
+import base64
+from io import BytesIO
+from django.http import HttpResponse
 from django.shortcuts import render
+import pymeshlab as ml
 
 def results(request):
     # retrieve data from database or other source
@@ -19,38 +21,6 @@ def results(request):
     }
     return render(request, 'meshes/results.html', context=data)
 
-def visualize(request):
-    # Get the path to the mesh file
-    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
-
-    # Read the mesh file
-    reader = vtk.vtkSTLReader()
-    reader.SetFileName(mesh_file)
-    reader.Update()
-
-    # Create a mapper and actor
-    mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInputConnection(reader.GetOutputPort())
-    actor = vtk.vtkActor()
-    actor.SetMapper(mapper)
-    actor.GetProperty().SetColor(1, 0, 0)  # set the color of the actor
-
-    # Create a renderer, render window, and interactor
-    renderer = vtk.vtkRenderer()
-    render_window = vtk.vtkRenderWindow()
-    render_window.AddRenderer(renderer)
-    interactor = vtk.vtkRenderWindowInteractor()
-    interactor.SetRenderWindow(render_window)
-
-    # Add the actor to the scene
-    renderer.AddActor(actor)
-    renderer.SetBackground(0.2, 0.2, 0.2)  # set the background color of the scene
-
-    # Render the scene and start the interactor
-    render_window.Render()
-    interactor.Start()
-
-    return render(request, 'meshes/results.html')
 
 def analyze(request):
 
@@ -89,41 +59,35 @@ class MeshSearchView(ListView):
             return mesh_files
         return MeshFile.objects.none()
 
-def render_mesh(request):
-    # Get the path to the mesh file
-    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
 
 
-    # Read the mesh file
-    reader = vtk.vtkSTLReader()
-    reader.SetFileName(mesh_file)
-    reader.Update()
+def visualize(request):
+    # Load the mesh using pymeshlab
+    mesh_path = os.path.join(settings.STATICFILES_DIRS[0], 'meshes/Vertebra.stl')
+    ms = ml.MeshSet()
+    ms.load_new_mesh(mesh_path)
+    mesh = ms.current_mesh()
 
-    # Create a mapper and actor
-    mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInputConnection(reader.GetOutputPort())
-    actor = vtk.vtkActor()
-    actor.SetMapper(mapper)
-    actor.GetProperty().SetColor(1, 0, 0)  # set the color of the actor
+    # Simplify the mesh using pymeshlab
+    ms2 = ml.MeshSet()
+    ms2.add_mesh(mesh)
+    ms2.apply_filter('simplification_quadric_edge_collapse_decimation', targetfacenum=1000)
+    simplified_mesh = ms2.current_mesh()
 
-    # Create a renderer, render window, and interactor
-    renderer = vtk.vtkRenderer()
-    render_window = vtk.vtkRenderWindow()
-    render_window.AddRenderer(renderer)
-    interactor = vtk.vtkRenderWindowInteractor()
-    interactor.SetRenderWindow(render_window)
+    # Write the mesh to an STL file
+    stl_path = os.path.join(settings.MEDIA_ROOT, 'meshes/simplified_mesh.stl')
+    ms2.save_current_mesh(stl_path)
 
-    # Add the actor to the scene
-    renderer.AddActor(actor)
-    renderer.SetBackground(0.2, 0.2, 0.2)  # set the background color of the scene
+    # Read the contents of the STL file as a binary string
+    with open(stl_path, 'rb') as f:
+        stl_contents = f.read()
+    base64_stl = base64.b64encode(stl_contents).decode('utf-8')
 
-    # Render the scene and get the image as a string
-    render_window.Render()
-    window_to_image_filter = vtk.vtkWindowToImageFilter()
-    window_to_image_filter.SetInput(render_window)
-    window_to_image_filter.Update()
-    image_string = window_to_image_filter.GetOutputDataObject(0).EncodeAsPNG()
+    # Generate context data for the template
+    context = {
+        'STATIC_URL': settings.STATIC_URL,
+        'mesh_url': 'data:application/stl;base64,' + base64_stl
+    }
+    return render(request, 'meshes/oops.html', context=context)
 
-    # Pass the image string to the HTML template and render the response
-    context = {'image': image_string}
-    return render(request, 'meshes/mesh.html', context)
+
