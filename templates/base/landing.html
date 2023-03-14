@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h1><img src="https://www.svgrepo.com/show/45090/spine.svg" style="width:10%">MeshZen</h1>
+        <p>Discover, visualize and collaborate on 3D spine meshes.</p>
+
+            <div class="container">
+              <a href="{% url 'meshes:mesh_search' %}" class="btn btn-primary">Explore</a>
+              <a href="#" class="btn btn-secondary">GitHub</a>
+            </div>
+
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="mesh-preview">
+          <div class="preview-box">
+            <div class="preview">
+              <div id="vtk_container" style="width:100%; height: 500px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<br>
+
+
+
+<script src="https://unpkg.com/vtk.js"></script>
+
+<script>
+    // Create a renderer, render window, and interactor
+    var renderer = vtk.Rendering.Misc.vtkRenderer.newInstance({background: [0.2, 0.2, 0.2]});
+    var renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
+    renderWindow.addRenderer(renderer);
+    var interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
+    interactor.setView(renderWindow);
+    interactor.initialize();
+    interactor.bindEvents(document.getElementById('vtk_container'));
+
+    // Add the actor to the scene
+    renderer.addActor({{ actor }});
+
+    // Render the scene
+    renderWindow.render();
+</script>
+
+{% endblock %}

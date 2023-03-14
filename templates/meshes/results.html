@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <h1>Mesh Values</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Filename</th>
+          <th scope="col">PI</th>
+          <th scope="col">PT</th>
+          <th scope="col">SS</th>
+          <th scope="col">LL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mesh in meshes %}
+          <tr>
+            <td>{{ mesh.id }}</td>
+            <td>{{ mesh.filename }}</td>
+            <td>{{ mesh.pi }}</td>
+            <td>{{ mesh.pt }}</td>
+            <td>{{ mesh.ss }}</td>
+            <td>{{ mesh.ll }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6">No Mesh Values Found</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hr>
+    <div class="text-center">
+      <a href="" class="btn btn-primary mx-2">Download Meshes</a>
+      <a href=" {% url 'meshes:render_mesh' %} " class="btn btn-dark">Visualize</a>    </div>
+  </div>
+  
+  </div>
+{% endblock %}

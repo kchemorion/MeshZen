@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <section class="api">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>API Documentation</h2>
+                    <p>Explore MeshZen's API and integrate it with your applications.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h3>Authentication</h3>
+                    <p>MeshZen API requires authentication with Zenodo credentials.</p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <h3>Endpoints</h3>
+                    <p>The MeshZen API provides access to the following endpoints:</p>
+                    <ul>
+                        <li><strong>/api/meshes/</strong> - Retrieve a list of meshes</li>
+                        <li><strong>/api/meshes/{id}/</strong> - Retrieve a specific mesh by ID</li>
+                        <li><strong>/api/meshes/{id}/comments/</strong> - Retrieve comments for a specific mesh</li>
+                        <li><strong>/api/meshes/{id}/comments/create/</strong> - Add a new comment to a specific mesh</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

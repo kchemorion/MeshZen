@@ -1,0 +1,445 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+  <div class="container-fluid mt-3">
+    <h1>Finite Element Analysis Report</h1>
+
+    <h2>Mesh Quality</h2>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Element Size Distribution</h4>
+        <canvas id="element-size-distribution"></canvas>
+      </div>
+      <div class="col-md-6">
+        <h4>Aspect Ratio Distribution</h4>
+        <canvas id="aspect-ratio-distribution"></canvas>
+      </div>
+    </div>
+
+   
+<br><br>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Element Size Distribution Chart
+    var elementSizeDistributionCanvas = document.getElementById('element-size-distribution').getContext('2d');
+    var elementSizeDistributionChart = new Chart(elementSizeDistributionCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['0-2', '2-4', '4-6', '6-8', '8-10'],
+        datasets: [{
+          label: 'Number of Elements',
+          data: [85, 100, 68, 35, 12],
+          backgroundColor: '#3498db',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Elements'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Element Size (mm)'
+            }
+          }
+        }
+      }
+    });
+
+    // Aspect Ratio Distribution Chart
+    var aspectRatioDistributionCanvas = document.getElementById('aspect-ratio-distribution').getContext('2d');
+    var aspectRatioDistributionChart = new Chart(aspectRatioDistributionCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10'],
+        datasets: [{
+          label: 'Number of Elements',
+          data: [95, 112, 72, 42, 15, 6, 3, 0, 0, 0],
+          backgroundColor: '#3498db',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Elements'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Aspect Ratio'
+            }
+          }
+        }
+      }
+    });
+
+  
+</script>
+
+
+<div class="container">
+  <h1>Finite Element Analysis Report</h1>
+
+  <div class="row">
+
+    <!-- Displacement Plot -->
+    <div class="col-md-6">
+      <h2>Displacement Plot</h2>
+      <div class="chart-container">
+        <canvas id="displacement-plot"></canvas>
+      </div>
+    </div>
+
+    <!-- Stress Plot -->
+    <div class="col-md-6">
+      <h2>Stress Plot</h2>
+      <div class="chart-container">
+        <canvas id="stress-plot"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <!-- Strain Plot -->
+    <div class="col-md-6">
+      <h2>Strain Plot</h2>
+      <div class="chart-container">
+        <canvas id="strain-plot"></canvas>
+      </div>
+    </div>
+
+    <!-- Modal Analysis Plot -->
+    <div class="col-md-6">
+      <h2>Modal Analysis Plot</h2>
+      <div class="chart-container">
+        <canvas id="modal-analysis-plot"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <!-- Buckling Analysis Plot -->
+    <div class="col-md-6">
+      <h2>Buckling Analysis Plot</h2>
+      <div class="chart-container">
+        <canvas id="buckling-analysis-plot"></canvas>
+      </div>
+    </div>
+
+    <!-- Heat Transfer Analysis Plot -->
+    <div class="col-md-6">
+      <h2>Heat Transfer Analysis Plot</h2>
+      <div class="chart-container">
+        <canvas id="heat-transfer-analysis-plot"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <!-- Fluid Flow Analysis Plot -->
+    <div class="col-md-6">
+      <h2>Fluid Flow Analysis Plot</h2>
+      <div class="chart-container">
+        <canvas id="fluid-flow-analysis-plot"></canvas>
+      </div>
+    </div>
+
+    <!-- Placeholder -->
+    <div class="col-md-6"></div>
+
+  </div>
+
+</div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Displacement Plot
+    var displacementPlotCanvas = document.getElementById('displacement-plot').getContext('2d');
+    var displacementPlotChart = new Chart(displacementPlotCanvas, {
+      type: 'line',
+      data: {
+        labels: ['0', '1', '2', '3', '4', '5'],
+        datasets: [{
+          label: 'Displacement',
+          data: [10, 15, 5, 8, 12, 20],
+          borderColor: 'rgb(54, 162, 235)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: 'Displacement (mm)'
+            }
+          }
+        }
+      }
+    });
+
+    // Stress Plot
+    var stressPlotCanvas = document.getElementById('stress-plot').getContext('2d');
+    var stressPlotChart= new Chart(stressPlotCanvas, {
+type: 'line',
+data: {
+labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4'],
+datasets: [{
+label: 'Stress (MPa)',
+data: [10, 20, 30, 40],
+backgroundColor: 'rgba(255, 99, 132, 0.2)',
+borderColor: 'rgba(255, 99, 132, 1)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+y: {
+title: {
+display: true,
+text: 'Stress (MPa)'
+}
+}
+}
+}
+});
+// Strain Plot
+var strainPlotCanvas = document.getElementById('strain-plot').getContext('2d');
+var strainPlotChart = new Chart(strainPlotCanvas, {
+  type: 'bar',
+  data: {
+    labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4'],
+    datasets: [{
+      label: 'Strain',
+      data: [0.1, 0.2, 0.3, 0.4],
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Strain'
+        }
+      }
+    }
+  }
+});
+
+// Modal Analysis Plot
+var modalAnalysisPlotCanvas = document.getElementById('modal-analysis-plot').getContext('2d');
+var modalAnalysisPlotChart = new Chart(modalAnalysisPlotCanvas, {
+  type: 'line',
+  data: {
+    labels: ['Mode 1', 'Mode 2', 'Mode 3', 'Mode 4'],
+    datasets: [{
+      label: 'Frequency (Hz)',
+      data: [5, 10, 15, 20],
+      backgroundColor: 'rgba(255, 206, 86, 0.2)',
+      borderColor: 'rgba(255, 206, 86, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Frequency (Hz)'
+        }
+      }
+    }
+  }
+});
+
+// Buckling Analysis Plot
+var bucklingAnalysisPlotCanvas = document.getElementById('buckling-analysis-plot').getContext('2d');
+var bucklingAnalysisPlotChart = new Chart(bucklingAnalysisPlotCanvas, {
+  type: 'line',
+  data: {
+    labels: ['Load Case 1', 'Load Case 2', 'Load Case 3', 'Load Case 4'],
+    datasets: [{
+      label: 'Critical Buckling Load (N)',
+      data: [1000, 2000, 1500, 2500],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text:'Stress (MPa)'
+}
+}
+}
+}
+});
+
+// Strain Plot
+var strainPlotCanvas = document.getElementById('strain-plot').getContext('2d');
+var strainPlotChart = new Chart(strainPlotCanvas, {
+type: 'bar',
+data: {
+labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4'],
+datasets: [{
+label: 'Strain',
+data: [0.1, 0.2, 0.3, 0.4],
+backgroundColor: 'rgba(54, 162, 235, 0.2)',
+borderColor: 'rgba(54, 162, 235, 1)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+y: {
+title: {
+display: true,
+text: 'Strain'
+}
+}
+}
+}
+});
+
+// Modal Close Button
+var modalCloseButton = document.querySelector('.close');
+modalCloseButton.addEventListener('click', function() {
+var modalContainer = document.querySelector('.modal-container');
+modalContainer.style.display = 'none';
+});
+
+// Modal Overlay Click Close
+var modalOverlay = document.querySelector('.modal-overlay');
+modalOverlay.addEventListener('click', function() {
+var modalContainer = document.querySelector('.modal-container');
+modalContainer.style.display = 'none';
+});
+
+// Buckling Analysis Plot
+var bucklingAnalysisPlotCanvas = document.getElementById('buckling-analysis-plot').getContext('2d');
+var bucklingAnalysisPlotChart = new Chart(bucklingAnalysisPlotCanvas, {
+type: 'bar',
+data: {
+labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4'],
+datasets: [{
+label: 'Buckling Load',
+data: [20, 30, 15, 25],
+backgroundColor: 'rgba(255, 206, 86, 0.2)',
+borderColor: 'rgba(255, 206, 86, 1)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+y: {
+title: {
+display: true,
+text: 'Buckling Load (kN)'
+}
+}
+}
+}
+});
+
+// Heat Transfer Analysis Plot
+var heatTransferAnalysisPlotCanvas = document.getElementById('heat-transfer-analysis-plot').getContext('2d');
+var heatTransferAnalysisPlotChart = new Chart(heatTransferAnalysisPlotCanvas, {
+type: 'bar',
+data: {
+labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4'],
+datasets: [{
+label: 'Temperature',
+data: [25, 30, 20, 35],
+backgroundColor: 'rgba(75, 192, 192, 0.2)',
+borderColor: 'rgba(75, 192, 192, 1)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+y: {
+title: {
+display: true,
+text: 'Temperature (°C)'
+}
+}
+}
+}
+});
+
+// Fluid Flow Analysis Plot
+var fluidFlowAnalysisPlotCanvas = document.getElementById('fluid-flow-analysis-plot').getContext('2d');
+var fluidFlowAnalysisPlotChart = new Chart(fluidFlowAnalysisPlotCanvas, {
+type: 'line',
+data: {
+labels: ['0', '1', '2', '3', '4', '5'],
+datasets: [{
+label: 'Velocity',
+data: [10, 15, 5, 8, 12, 20],
+borderColor: 'rgb(255, 99, 132)',
+backgroundColor: 'rgba(255, 99, 132, 0.2)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+y: {
+title: {
+display: true,
+text: 'Velocity (m/s)'
+}
+}
+}
+}
+});
+</script>
+
+
+
+
+{% endblock %}
