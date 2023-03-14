@@ -89,3 +89,41 @@ class MeshSearchView(ListView):
             return mesh_files
         return MeshFile.objects.none()
 
+def render_mesh(request):
+    # Get the path to the mesh file
+    mesh_file = os.path.join(settings.STATIC_ROOT, 'meshes', 'Vertebra.stl')
+
+
+    # Read the mesh file
+    reader = vtk.vtkSTLReader()
+    reader.SetFileName(mesh_file)
+    reader.Update()
+
+    # Create a mapper and actor
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputConnection(reader.GetOutputPort())
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+    actor.GetProperty().SetColor(1, 0, 0)  # set the color of the actor
+
+    # Create a renderer, render window, and interactor
+    renderer = vtk.vtkRenderer()
+    render_window = vtk.vtkRenderWindow()
+    render_window.AddRenderer(renderer)
+    interactor = vtk.vtkRenderWindowInteractor()
+    interactor.SetRenderWindow(render_window)
+
+    # Add the actor to the scene
+    renderer.AddActor(actor)
+    renderer.SetBackground(0.2, 0.2, 0.2)  # set the background color of the scene
+
+    # Render the scene and get the image as a string
+    render_window.Render()
+    window_to_image_filter = vtk.vtkWindowToImageFilter()
+    window_to_image_filter.SetInput(render_window)
+    window_to_image_filter.Update()
+    image_string = window_to_image_filter.GetOutputDataObject(0).EncodeAsPNG()
+
+    # Pass the image string to the HTML template and render the response
+    context = {'image': image_string}
+    return render(request, 'meshes/mesh.html', context)
